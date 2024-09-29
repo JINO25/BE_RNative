@@ -1,5 +1,5 @@
 /* eslint-disable */
-const Booking = require('../model/bookingModel');
+const Booking = require('../Model/bookingModel');
 const User = require('../Model/userModel');
 const Hotel = require('../Model/hotelModel');
 const Room = require('../Model/roomModel');
