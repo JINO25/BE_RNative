@@ -6,8 +6,12 @@ const hotelSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Vui lòng cung cấp tên khách sạn']
     },
-    street: {
+    description: {
         type: String
+    },
+    phone: {
+        type: String,
+        required: [true, 'Hotel must have a number phone']
     },
     address: {
         type: String,
@@ -23,9 +27,9 @@ const hotelSchema = new mongoose.Schema({
     },
     ratingsQuantity: Number,
     ratingsAverage: Number,
-    size: [{
-        type: Number
-    }],
+    // size: [{
+    //     type: Number
+    // }],
     utilities: [{
         type: String
     }],
