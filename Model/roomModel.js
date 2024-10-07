@@ -23,6 +23,10 @@ const roomSchema = new mongoose.Schema({
         type: Number,
         required: [true, 'Phải có giá phòng']
     },
+    images: [String],
+    description: {
+        type: String
+    },
     utilities: [{
         type: String
     }]

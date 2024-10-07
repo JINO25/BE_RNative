@@ -29,12 +29,10 @@ const hotelSchema = new mongoose.Schema({
     utilities: [{
         type: String
     }],
-    // images: {
-    //     type: String
-    // },
-    // imgCover: {
-    //     type: String
-    // },
+    images: [String],
+    imgCover: {
+        type: String
+    },
     slug: String,
     hotelier: {
         type: mongoose.Schema.Types.ObjectId,
