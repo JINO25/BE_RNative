@@ -24,7 +24,7 @@ const roomSchema = new mongoose.Schema({
         required: [true, 'Phải có giá phòng']
     },
     images: [String],
-    description: {
+    quantity: {
         type: String
     },
     utilities: [{

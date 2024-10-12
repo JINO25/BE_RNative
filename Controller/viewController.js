@@ -26,14 +26,14 @@ exports.getHotel = catchAsync(async (req, res, next) => {
     }
     const hotel = await Hotel.findById(id).populate({
         path: 'reviews',
-        select: 'user review rating',
+        select: 'user review rating createAt title',
         populate: {
             path: 'user',
             select: 'name photo'
         }
     }).populate({
         path: 'rooms',
-        select: 'name bedQuantity'
+        select: 'name bedQuantity area price images utilities quantity'
 
     });
 
@@ -113,3 +113,10 @@ exports.bookingHotel = catchAsync(async (req, res, next) => {
     });
 
 });
+
+exports.getMe = catchAsync(async (req, res) => {
+    res.status(200).json({
+        status: 'success',
+        data: req.user
+    })
+})

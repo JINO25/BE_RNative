@@ -21,10 +21,24 @@ const sendToken = async (user, statusCode, res) => {
                 _id: user._id,
                 email: user.email,
                 role: user.role,
+                photo: user.photo,
+                name: user.name
             }
         }
     });
 }
+
+exports.findUserByEmail = catchAsync(async (req, res, next) => {
+    const { email } = req.body;
+
+    const user = await User.findOne({ email: email });
+    if (!user) {
+        return next(new CreateError('User not found!', 404));
+    }
+    return res.status(200).json({
+        status: 'success'
+    })
+})
 
 exports.loginSuccessfully = catchAsync(async (req, res, next) => {
     const email = req.body;
@@ -37,15 +51,27 @@ exports.loginSuccessfully = catchAsync(async (req, res, next) => {
     sendToken(user, 201, res);
 });
 
-exports.signUpSuccessfully = catchAsync(async (req, res) => {
-    const { name, email, photo, yearOfBirth } = req.body;
-    const user = await User.findOne(email);
+// exports.signUpSuccessfully = catchAsync(async (req, res) => {
+//     const { name, email, photo, yearOfBirth } = req.body;
+//     const user = await User.findOne(email);
+//     if (user) {
+//         return next(new CreateError('User has existed!', 400))
+//     }
+//     const account = await User.create({ name, email, photo, yearOfBirth });
+//     sendToken(account._id, 201, res);
+// })
+
+exports.signUpSuccessfully = catchAsync(async (req, res, next) => {
+    const { name, email, phone } = req.body;
+
+    const user = await User.findOne({ email: email });
     if (user) {
         return next(new CreateError('User has existed!', 400))
     }
-    const account = await User.create({ name, email, photo, yearOfBirth });
+    const account = await User.create({ name: name, email: email, phone: phone });
     sendToken(account._id, 201, res);
 })
+
 
 exports.verifyUser = async (req, res, next) => {
     let token;

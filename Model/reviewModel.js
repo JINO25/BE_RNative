@@ -4,6 +4,10 @@ const mongoose = require('mongoose');
 const Hotel = require('./hotelModel');
 
 const reviewSchema = new mongoose.Schema({
+    title: {
+        type: String,
+        required: [true, 'Review must have title!']
+    },
     review: {
         type: String,
         required: [true, 'Review can not be empty!']

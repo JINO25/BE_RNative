@@ -10,13 +10,20 @@ const userSchema = new mongoose.Schema({
         validate: [validator.isEmail, 'Vui long cung cấp đúng định dạng email'],
         required: [true, 'User must have email']
     },
-    photo: String,
+    photo: {
+        type: String,
+        default: 'default.jpg'
+    },
     role: {
         type: String,
         default: 'User'
     },
     yearOfBirth: {
         type: Number
+    },
+    phone: {
+        type: String,
+        required: true
     }
 });
 
