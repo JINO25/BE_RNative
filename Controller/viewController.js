@@ -8,12 +8,20 @@ const mongoose = require('mongoose');
 
 exports.getOverView = catchAsync(async (req, res, next) => {
     const doc = await Hotel.find();
-
+    const docStandoutDestination = await Hotel.find({
+        ratingsAverage: {
+            $gte: 4.5
+        }
+    }, {
+        city: 1,
+        imgCover: 1
+    });
     res.status(200).json({
         status: 'success',
         result: doc.length,
         data: {
-            hotel: doc
+            hotel: doc,
+            standoutDestination: docStandoutDestination
         }
     })
 });
