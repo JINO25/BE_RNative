@@ -15,8 +15,10 @@ router.get('/hotel/:id', viewController.getHotel);
 router.get('/hotel/:id/room/:roomId', viewController.getRoomFromHotel);
 router.get('/search', viewController.search);
 
-router.post('/hotel/:hotelId/room/:roomId/booking', authController.verifyUser, viewController.bookingHotel);
 
+
+router.post('/hotel/:hotelId/room/:roomId/booking', authController.verifyUser, viewController.bookingHotel);
 router.get('/me', authController.verifyUser, viewController.getMe);
+router.get('/myBooking', authController.verifyUser, viewController.getMyBookingHotel);
 
 module.exports = router;

@@ -5,6 +5,7 @@ const Hotel = require('./../Model/hotelModel');
 const Room = require('./../Model/roomModel');
 const Booking = require('./../Model/bookingModel');
 const mongoose = require('mongoose');
+const { checkout } = require('../routers/viewRouter');
 
 exports.getOverView = catchAsync(async (req, res, next) => {
     const doc = await Hotel.find();
@@ -105,6 +106,10 @@ exports.bookingHotel = catchAsync(async (req, res, next) => {
     const user = req.user;
 
     const { hotelId, roomId } = req.params;
+    const { checkIn, CheckOutDate, quantity, total, methodPayment, voucher } = req.body;
+
+    console.log("method: " + methodPayment);
+
 
     const checkHotel = await Hotel.findById({ _id: hotelId });
 
@@ -113,12 +118,51 @@ exports.bookingHotel = catchAsync(async (req, res, next) => {
         return next(new CreateError('No hotel or room from hotel!', 404));
     }
 
-    const rs = await Booking.create({ user, hotel: hotelId, room: roomId })
+    if (voucher != null) {
+        const rs = await Booking.create({
+            user,
+            hotel: hotelId,
+            room: roomId,
+            checkInDate: checkIn,
+            checkOutDate: CheckOutDate,
+            totalPrice: total,
+            quantity,
+            method: methodPayment,
+            voucher
+        });
 
-    res.status(200).json({
-        status: 'success',
-        data: rs
-    });
+        res.status(200).json({
+            status: 'success',
+            data: rs
+        });
+
+    } else {
+
+        try {
+            console.log(1);
+
+            const rs = await Booking.create({
+                user,
+                hotel: hotelId,
+                room: roomId,
+                checkInDate: checkIn,
+                checkOutDate: CheckOutDate,
+                totalPrice: total,
+                quantity,
+                method: methodPayment
+            });
+
+            res.status(200).json({
+                status: 'success',
+                data: rs
+            });
+        } catch (error) {
+            console.log(error);
+
+        }
+    }
+
+
 
 });
 
@@ -127,4 +171,21 @@ exports.getMe = catchAsync(async (req, res) => {
         status: 'success',
         data: req.user
     })
+})
+
+exports.getMyBookingHotel = catchAsync(async (req, res) => {
+    const user = req.user;
+    const hotel = await Booking.find({ user: user._id }).populate({
+        path: 'hotel',
+        select: 'name address imgCover'
+    }).populate({
+        path: 'room',
+        select: 'name bedQuantity'
+    })
+
+    res.status(200).json({
+        status: 'success',
+        data: hotel
+    });
+
 })

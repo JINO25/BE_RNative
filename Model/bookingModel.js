@@ -21,18 +21,30 @@ const bookingSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    // checkInDate: {
-    //     type: Date,
-    //     required: true
-    // },
-    // checkOutDate: {
-    //     type: Date,
-    //     required: true
-    // },
-    // totalPrice: {
-    //     type: Number,
-    //     required: true
-    // }
+    checkInDate: {
+        type: Date,
+        required: true
+    },
+    checkOutDate: {
+        type: Date,
+        required: true
+    },
+    totalPrice: {
+        type: Number,
+        required: true
+    },
+    quantity: {
+        type: Number,
+        required: true
+    },
+    method: {
+        type: String,
+        required: true
+    },
+    voucher: [{
+        id: String,
+        discount: String
+    }]
 });
 
 // const Booking = mongoose.model('Booking', bookingSchema);
