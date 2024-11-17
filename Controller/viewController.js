@@ -188,4 +188,116 @@ exports.getMyBookingHotel = catchAsync(async (req, res) => {
         data: hotel
     });
 
-})
+});
+
+exports.updateHotel = catchAsync(async (req, res) => {
+    const { id } = req.params;
+
+    console.log(id);
+
+    // const { name, address, city, description } = req.body;
+
+    const updates = {};
+    const allowedFields = ['name', 'address', 'city', 'description'];
+
+    allowedFields.forEach(field => {
+        if (req.body[field] !== undefined) {
+            updates[field] = req.body[field];
+        }
+    });
+
+    if (Object.keys(updates).length === 0) {
+        return res.status(400).json({
+            status: 'fail',
+            message: 'No valid fields provided for update.'
+        });
+    }
+
+    console.log(updates);
+
+
+    const hotel = await Hotel.findOneAndUpdate({
+        _id: id
+    },
+        updates
+        , {
+            new: true
+        });
+
+    if (!hotel) {
+        return res.status(404).json({
+            status: 'fail',
+            message: 'Hotel not found.'
+        });
+    }
+
+    res.status(200).json({
+        status: 'success',
+        data: {
+            hotel
+        }
+    })
+});
+
+exports.addUtility = catchAsync(async (req, res) => {
+    const { id } = req.params;
+
+    const { utilities } = req.body;
+
+    const update = await Hotel.findOneAndUpdate({
+        _id: id
+    }, {
+        $push: { utilities }
+    }, {
+        new: true
+    });
+
+    res.status(200).json({
+        status: 'success',
+        update
+    });
+
+});
+
+exports.addRoom = catchAsync(async (req, res) => {
+    const { id } = req.params;
+    const { name, bedQuantity, area, price } = req.body;
+
+    const images = [
+        "room_1.1.jpg",
+        "room_1.2.jpg"
+    ];
+
+    const utilities = [
+        "có chỗ nấu nướng",
+        "vòi sen, bồn tắm"
+    ]
+    const data = await Room.create({
+        hotel: id, name, bedQuantity, area, price, images, utilities
+    });
+
+    res.status(200).json({
+        status: 'success',
+        data: {
+            data
+        }
+    })
+
+});
+
+exports.updateRoom = catchAsync(async (req, res) => {
+    const { id, roomId } = req.params;
+    const { name, bedQuantity, area, price, quantity, img, utilities } = req.body;
+
+    const data = await Room.create({
+        hotel: id, name, bedQuantity, area, price, images: img, quantity, utilities
+    });
+
+    res.status(200).json({
+        status: 'success',
+        data: {
+            data
+        }
+    })
+
+});

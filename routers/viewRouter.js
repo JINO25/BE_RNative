@@ -12,7 +12,12 @@ router.post('/verify', authController.verifyUser);
 
 router.get('/home', viewController.getOverView);
 router.get('/hotel/:id', viewController.getHotel);
+router.put('/hotel/:id', viewController.updateHotel);
+router.put('/hotel/addUtility/:id', viewController.addUtility);
+
 router.get('/hotel/:id/room/:roomId', viewController.getRoomFromHotel);
+router.post('/hotel/:id', viewController.addRoom);
+
 router.get('/search', viewController.search);
 
 
