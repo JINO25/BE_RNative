@@ -44,7 +44,11 @@ const bookingSchema = new mongoose.Schema({
     voucher: [{
         id: String,
         discount: String
-    }]
+    }],
+    status: {
+        type: Boolean,
+        default: false
+    }
 });
 
 // const Booking = mongoose.model('Booking', bookingSchema);
