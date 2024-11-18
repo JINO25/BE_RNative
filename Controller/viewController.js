@@ -307,6 +307,9 @@ exports.getBookingForHotelier = catchAsync(async (req, res) => {
     const data = await Booking.find({ hotel: id }).populate({
         path: 'user',
         select: 'name email phone'
+    }).populate({
+        path: 'room',
+        select: 'name'
     });
 
     if (!data) {
