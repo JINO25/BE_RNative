@@ -19,7 +19,7 @@ router.get('/hotel/:id/room/:roomId', viewController.getRoomFromHotel);
 router.post('/hotel/:id', viewController.addRoom);
 
 router.get('/search', viewController.search);
-
+router.get('/getBooking/:id', viewController.getBookingForHotelier)
 
 
 router.post('/hotel/:hotelId/room/:roomId/booking', authController.verifyUser, viewController.bookingHotel);

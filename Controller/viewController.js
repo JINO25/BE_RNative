@@ -301,3 +301,24 @@ exports.updateRoom = catchAsync(async (req, res) => {
     })
 
 });
+
+exports.getBookingForHotelier = catchAsync(async (req, res) => {
+    const { id } = req.params;
+    const data = await Booking.find({ hotel: id }).populate({
+        path: 'user',
+        select: 'name email phone'
+    });
+
+    if (!data) {
+        res.status(404).json({
+            status: 'fail',
+            message: `No data with hotel id: ${id}`
+        });
+    }
+
+    res.status(200).json({
+        status: 'success',
+        data
+    });
+
+})
