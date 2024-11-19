@@ -6,6 +6,7 @@ const Room = require('./../Model/roomModel');
 const Booking = require('./../Model/bookingModel');
 const mongoose = require('mongoose');
 const { checkout } = require('../routers/viewRouter');
+const Review = require('../Model/reviewModel');
 
 exports.getOverView = catchAsync(async (req, res, next) => {
     const doc = await Hotel.find();
@@ -340,3 +341,19 @@ exports.getBookingForHotelier = catchAsync(async (req, res) => {
     });
 
 })
+
+exports.createReview = catchAsync(async (req, res, next) => {
+    const { id, title, review, rating } = req.body;
+    const user = req.user;
+    const doc = await Review.create({
+        title, review, rating,
+        user,
+        hotel: id
+    });
+
+    res.status(201).json({
+        status: 'success',
+        data: doc
+    })
+
+});

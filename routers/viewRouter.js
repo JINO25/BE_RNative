@@ -19,6 +19,8 @@ router.get('/hotel/:id/room/:roomId', viewController.getRoomFromHotel);
 router.post('/hotel/:id', viewController.addRoom);
 router.delete('/hotel/:id/room/:roomId', viewController.deleteRoom);
 
+router.post('/hotel/:id/review', authController.verifyUser, viewController.createReview);
+
 router.get('/search', viewController.search);
 router.get('/getBooking/:id', viewController.getBookingForHotelier)
 
