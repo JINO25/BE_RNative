@@ -302,6 +302,21 @@ exports.updateRoom = catchAsync(async (req, res) => {
 
 });
 
+exports.deleteRoom = catchAsync(async (req, res) => {
+    const { id, roomId } = req.params;
+
+    const doc = await Room.findOneAndDelete({
+        _id: roomId,
+        hotel: id
+    });
+
+
+    res.status(200).json({
+        status: 'success',
+        data: null
+    })
+})
+
 exports.getBookingForHotelier = catchAsync(async (req, res) => {
     const { id } = req.params;
     const data = await Booking.find({ hotel: id }).populate({
