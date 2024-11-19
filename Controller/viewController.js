@@ -343,7 +343,10 @@ exports.getBookingForHotelier = catchAsync(async (req, res) => {
 })
 
 exports.createReview = catchAsync(async (req, res, next) => {
-    const { id, title, review, rating } = req.body;
+    const { title, review, rating } = req.body;
+    const { id } = req.params;
+    console.log(id);
+
     const user = req.user;
     const doc = await Review.create({
         title, review, rating,
